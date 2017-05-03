@@ -5,11 +5,11 @@ namespace DataStructures
 {
     public class Stack<T> 
     {
-        private List<T> _stack  { get; set; }
+        private LinkedList<T> _stack  { get; set; }
 
         public Stack()
         {
-            _stack = new List<T>();
+            _stack = new LinkedList<T>();
         }
 
         public int Size
@@ -26,18 +26,18 @@ namespace DataStructures
 
         public T Peek()
         {
-            if (_stack != null && _stack[0] != null)
+            if (_stack != null && _stack.First != null)
             {
-                return _stack[0];
+                return _stack.First.Value;
             }
             throw new InvalidOperationException();
         }
 
         public T Pop()
         {
-            if (_stack != null && _stack[0] != null)
+            if (_stack != null && _stack.First != null)
             {
-                var result = _stack[0];
+                var result = _stack.First.Value;
                 _stack.Remove(result);
                 return result;
             }
@@ -48,7 +48,7 @@ namespace DataStructures
         {
             if (_stack != null)
             {
-                _stack.Add(value);
+                _stack.AddFirst(value);
             }
         }
     }
