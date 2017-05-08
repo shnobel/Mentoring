@@ -16,21 +16,13 @@ namespace DataStructures
         {
             get
             {
-                if (_stack != null)
-                {
-                    return _stack.Count;
-                }
-                throw new InvalidOperationException();
+                 return _stack.Count;
             }
         }
 
         public T Peek()
         {
-            if (_stack != null && _stack.First != null)
-            {
-                return _stack.First.Value;
-            }
-            throw new InvalidOperationException();
+             return _stack.First.Value;
         }
 
         public T Pop()
@@ -46,10 +38,7 @@ namespace DataStructures
 
         public void Push(T value)
         {
-            if (_stack != null)
-            {
-                _stack.AddFirst(value);
-            }
+            _stack.AddFirst(value);
         }
     }
 }

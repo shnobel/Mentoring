@@ -1,61 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace StackAndQueue
 {
     public class Queue<T>
     {
-        private int _tail = 0;
-        private int _head = 0;
-        private T[] _queue; 
+        private LinkedList<T> _queue; 
 
-        public Queue(int capacity = 10)
+        public Queue()
         {
-            _queue = new T[capacity];
+            _queue = new LinkedList<T>();
         }
 
         public int Size
         {
-            get{ return _queue.Length;}
+            get{ return _queue.Count;}
         }
 
         public void Enqueue(T value)
         {
-            if(_tail < _queue.Length)
-            {
-                _queue[_tail] = value;
-                _tail++;
-                return;
-            }
-            AddCapacity();
-            _queue[_tail] = value;
-            _tail++;
+            _queue.AddLast(value);
         }
 
         public T Dequeue()
         {
-            if (_queue != null && _queue.Length > 0)
+            if (_queue != null && _queue.Count > 0)
             {
-                var result = _queue[_head];
-                _head++;
-                return result;
+                var result = _queue.First;
+                _queue.Remove(result);
+                return result.Value;
             }
             throw new InvalidOperationException();
         }
 
         public T Peek()
         {
-            if (_queue != null && _queue.Length > 0)
+            if (_queue != null && _queue.Count > 0)
             {
-                return _queue[_head];
+                return _queue.First.Value;
             }
             throw new InvalidOperationException();
-        }
-
-        private void AddCapacity(int index = 2)
-        {
-            var newQueue = new T[_queue.Length * index];
-            _queue.CopyTo(newQueue, (long)_head);
-            _queue = newQueue;
         }
     }
 }

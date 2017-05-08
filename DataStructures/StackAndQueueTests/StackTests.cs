@@ -10,14 +10,14 @@ namespace StackAndQueueTests
         Stack<int> stack;
 
         [TestMethod]
-        public void InitStack()
+        public void InitStack_ShouldInitialiseEqmptyStackWithCorrectSize()
         {
             stack = new Stack<int>();
             Assert.AreEqual(0, stack.Size);
         }
 
         [TestMethod]
-        public void PushStack()
+        public void PushStack_ShouldAddValueToTheStack()
         {
             stack = new Stack<int>();
             stack.Push(10);
@@ -25,7 +25,7 @@ namespace StackAndQueueTests
         }
 
         [TestMethod]
-        public void PushTwiceStack()
+        public void PushTwiceStack_ShouldAddTwoValuesToTheStack()
         {
             stack = new Stack<int>();
             stack.Push(10);
@@ -34,7 +34,7 @@ namespace StackAndQueueTests
         }
 
         [TestMethod]
-        public void PopStack()
+        public void PopStack_ShouldReturnCorrectValue_WhenWasCalledPopMethod()
         {
             stack = new Stack<int>();
             var valueToPush = 10;
@@ -43,7 +43,7 @@ namespace StackAndQueueTests
         }
 
         [TestMethod]
-        public void PopTwiceStack()
+        public void PopTwiceStack__ShouldReturnCorrectValues_WhenWasCalledPopMethod()
         {
             stack = new Stack<int>();
             var valueToPush = 10;
@@ -56,7 +56,7 @@ namespace StackAndQueueTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void PopFromEmptyStack()
+        public void PopFromEmptyStack_ShouldThrowException_WhenWasCalledPopForEmptyStack()
         {
             stack = new Stack<int>();
             stack.Pop();

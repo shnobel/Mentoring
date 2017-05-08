@@ -9,24 +9,24 @@ namespace StackAndQueueTests
     {
         Queue<int> queue;
         [TestMethod]
-        public void InitQueue()
+        public void InitQueue_ShouldInitialiseEqmptyQueueWithCorrectSize()
         {
-            queue = new Queue<int>(5);
-            Assert.AreEqual(5, queue.Size);
+            queue = new Queue<int>();
+            Assert.AreEqual(0, queue.Size);
         }
 
         [TestMethod]
-        public void Enqueue()
+        public void Enqueue_ShouldAddElementIntoQueue_WhenCorrectValuePassed()
         {
-            queue = new Queue<int>(5);
+            queue = new Queue<int>();
             queue.Enqueue(10);
             Assert.AreEqual(10, queue.Peek());
         }
 
         [TestMethod]
-        public void EnqueueTwice()
+        public void EnqueueTwice_ShouldAddElementIntoQueue2Times_WhenCorrectValuePassed()
         {
-            queue = new Queue<int>(5);
+            queue = new Queue<int>();
             queue.Enqueue(10);
             queue.Enqueue(20);
             Assert.AreEqual(10, queue.Dequeue());
@@ -34,9 +34,9 @@ namespace StackAndQueueTests
         }
 
         [TestMethod]
-        public void AddCapacityToQueue()
+        public void AddCapacityToQueue_ShouldVerifySizeOfQueue_WhenWasCalledEnqueueAndDequeueMethods()
         {
-            queue = new Queue<int>(1);
+            queue = new Queue<int>();
             queue.Enqueue(10);
             queue.Enqueue(20);
             queue.Enqueue(30);
@@ -45,12 +45,13 @@ namespace StackAndQueueTests
             queue.Enqueue(60);
             Assert.AreEqual(10, queue.Dequeue());
             Assert.AreEqual(20, queue.Dequeue());
+            Assert.AreEqual(4, queue.Size);
         }
 
         [TestMethod]
-        public void GetPeekQueue()
+        public void GetPeekQueue_ShouldReturnPeekValueOfTheQueue_WhenWasAddedFewValues()
         {
-            queue = new Queue<int>(1);
+            queue = new Queue<int>();
             queue.Enqueue(60);
             queue.Enqueue(50);
             Assert.AreEqual(60, queue.Dequeue());
@@ -58,9 +59,9 @@ namespace StackAndQueueTests
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void DequeueEmptyQueue()
+        public void DequeueEmptyQueue_ShouldThrowException_WhenQueueIsEmpty()
         {
-            queue = new Queue<int>(0);
+            queue = new Queue<int>();
             queue.Dequeue();
         }
     }
