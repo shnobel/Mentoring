@@ -2,18 +2,26 @@
 {
     public class Entry<TKey, TValue>
     {
-        TKey key;
-        TValue data;
-        public Entry(TKey key, TValue data)
+        object key;
+        object data;
+        public Entry(object key, object data)
         {
             this.key = key;
             this.data = data;
         }
-        public TKey Getkey()
+
+        public object Getkey()
         {
-            return key;
+            if (this != null)
+            {
+                return key;
+            }
+            else
+            {
+                return null;
+            }
         }
-        public TValue GetValue()
+        public object GetValue()
         {
             return data;
         }

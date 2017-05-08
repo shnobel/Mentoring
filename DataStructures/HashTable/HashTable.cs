@@ -1,36 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HashTable
 {
-    public class HashTable<Tkey, TValue> : IHashTable
+    public class HashTable<TKey, TValue> : IHashTable
     {
-        LinkedList<Entry<Tkey, TValue>> list;
+        Entry<TKey, TValue>[] list;
 
-        public HashTable()
+        public HashTable(int size)
         {
-            list = new LinkedList<Entry<Tkey, TValue>>();
+            list = new Entry<TKey, TValue>[size];
         }
-
 
         public object this[object key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void Add(object key, object value)
         {
-            var entry = new Entry<object, object>(key, value);
-            
-            //Compute the keys hash code
-            var hash = key.GetHashCode();
-            //Compress it to determine bucket
-            //Insert the entry(key, value) into bucket's chain
+            if (Contains(key))
+            {
+                throw new Exception();
+            }
+
+            var entry = new Entry<TKey,TValue>((TKey)key, (TValue)value);
+            var hash = GetHashCode(key);
+            while (list[hash] != null)
+            {
+                if(hash == list.Length)
+                {
+                    hash--;
+                    break;
+                }
+                else
+                {
+                    hash++;
+                }
+            }
+            list[hash] = entry;
         }
 
         public bool Contains(object key)
         {
-            return true;
+            var result = false;
+            foreach(var item in list)
+            {
+                if (item.Getkey() != null)
+                {
+                    result = item.Getkey().Equals(key) ? true : false;
+                }
+                else break;
+            }
+            return result;
         }
 
         public bool TryGet(object key, out object value)
@@ -52,16 +70,14 @@ namespace HashTable
             //Return entry or null
         }
 
-        //public override int GetHashCode()
-        //{
-        //    unchecked 
-        //    {
-        //        int hash = 17;
-        //        hash = hash * 23 + field1.GetHashCode();
-        //        hash = hash * 23 + field2.GetHashCode();
-        //        hash = hash * 23 + field3.GetHashCode();
-        //        return hash;
-        //    }
-        //}
+        public int GetHashCode(object obj)
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                hash = (hash * 23 + obj.GetHashCode()) % list.Length;
+                return hash < 0 ? hash*-1 : hash;
+            }
+        }
     }
 }
