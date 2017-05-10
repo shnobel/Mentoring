@@ -2,9 +2,9 @@
 {
     public class ListNode<T>
     {
-        public T value;
-        public ListNode<T> next;
-        public ListNode<T> prev;
+        private T value;
+        private ListNode<T> next;
+        private ListNode<T> prev;
 
         public ListNode(T value, ListNode<T> next, ListNode<T> prev)
         {
@@ -13,19 +13,25 @@
             this.prev = prev;
         }
 
+        public T Value { get { return value; } set { } }
+        public ListNode<T> Next { get { return next; } set { } }
+        public ListNode<T> Prev { get { return prev; } set { } }
+
         public ListNode(T value) : this(value, null, null){}
 
         public ListNode<T> ElementAt(int position)
         {
-            if (position == 1) return this;
+            ListNode<T> result;
+            if (position == 1) result = this;
             else if (position < 1 || next == null)
             {
-                return null;
+                result = null;
             }
             else
             {
-                return next.ElementAt(position - 1);
+                result = next.ElementAt(position - 1);
             }
+            return result;
         }
 
     }
