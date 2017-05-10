@@ -79,7 +79,7 @@ namespace LinkedListTests
             list.Add(3);
             list.Add(4);
             list.RemoveAt(index);
-            Assert.IsTrue(!list.ElementAt(2).Equals(valueToVerify));
+            Assert.IsFalse(list.ElementAt(2).Equals(valueToVerify));
             Assert.IsTrue(list.Length.Equals(3));
         }
     }

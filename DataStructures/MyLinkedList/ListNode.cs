@@ -14,8 +14,8 @@
         }
 
         public T Value { get { return value; } set { } }
-        public ListNode<T> Next { get { return next; } set { } }
-        public ListNode<T> Prev { get { return prev; } set { } }
+        public ListNode<T> Next { get { return next; } set { next = value; } }
+        public ListNode<T> Prev { get { return prev; } set { prev = value; } }
 
         public ListNode(T value) : this(value, null, null){}
 
@@ -23,7 +23,7 @@
         {
             ListNode<T> result;
             if (position == 1) result = this;
-            else if (position < 1 || next == null)
+            else if (position < 1 )//|| next == null)
             {
                 result = null;
             }
