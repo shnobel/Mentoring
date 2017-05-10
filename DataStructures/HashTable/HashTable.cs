@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace HashTable
 {
@@ -11,11 +12,57 @@ namespace HashTable
             list = new Entry<TKey, TValue>[size];
         }
 
-        public object this[object key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Size
+        {
+            get
+            {
+                return list.Length;
+            }
+        }
+
+
+        public object this[object key]
+        {
+            get
+            {
+                if (!Contains(key))
+                {
+                    throw new Exception();
+                }
+                object result = null;
+                foreach(var item in list)
+                {
+                    if (result != null) return result;
+                    if (item == null)
+                    {
+                        continue;
+                    }
+                    result = item.GetValue();
+                }
+                return result;
+            }
+            set
+            {
+                if (Contains(key))
+                {
+                    throw new Exception();
+                }
+
+                if (value == null)
+                {
+                    return;
+                }
+               
+                else
+                {
+                    Add(key, value);
+                }
+            }
+        }
 
         public void Add(object key, object value)
         {
-            if (Contains(key))
+            if (Contains(key) || value == null)
             {
                 throw new Exception();
             }
@@ -42,32 +89,31 @@ namespace HashTable
             var result = false;
             foreach(var item in list)
             {
-                if (item.Getkey() != null)
+                if (result) return result;
+                try
                 {
-                    result = item.Getkey().Equals(key) ? true : false;
+                    result = item.Getkey().Equals(key);
                 }
-                else break;
+                catch (NullReferenceException e)
+                {
+                    result = false;
+                }
             }
             return result;
         }
 
         public bool TryGet(object key, out object value)
         {
-            value = 5;
-            return true;
-
-            //hash the key
-            //Search chain for entry with diven key
-            //if found return it, otherwise null
-        }
-
-        //Optional
-        public void Remove(object key)
-        {
-            //hash the key
-            //Search chain for entry with diven key
-            //Remove it from chain if found
-            //Return entry or null
+            try
+            {
+                value = this[key];
+                return true;
+            }
+            catch(Exception e)
+            {
+                value = null;
+                return false;
+            }
         }
 
         public int GetHashCode(object obj)

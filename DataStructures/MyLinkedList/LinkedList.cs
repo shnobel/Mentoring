@@ -105,15 +105,7 @@ namespace MyLinkedList
 
         public T ElementAt(int position)
         {
-            ListNode<T> element;
-            try
-            {
-                element = head.ElementAt(position);
-            }
-            catch(NullReferenceException e)
-            {
-                return default(T);
-            }
+            ListNode<T> element = head.ElementAt(position);
             return element != null ? element.value : throw new IndexOutOfRangeException();
         }
 

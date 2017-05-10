@@ -12,14 +12,15 @@
 
         public object Getkey()
         {
-            if (this != null)
-            {
-                return key;
-            }
-            else
-            {
-                return null;
-            }
+            //if (this != null)
+            //{
+            //    return key;
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            return key ?? null;
         }
         public object GetValue()
         {
