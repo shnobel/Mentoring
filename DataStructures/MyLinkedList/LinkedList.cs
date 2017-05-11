@@ -22,7 +22,6 @@ namespace MyLinkedList
             else
             {
                 current.Next = listNode;
-                //listNode.Prev = current;
             }
             current = listNode;
             length++;
@@ -44,18 +43,13 @@ namespace MyLinkedList
 
         public void Remove(T value)
         {
-            //var index = 1;
             for(int index = 1; index <= length; index++)
-            //while(index <= length)
             {
                 if(head.ElementAt(index).Value.Equals(value))
-                //var currentValueAtPosition = head.ElementAt(index);
-                //if (currentValueAtPosition.Value.Equals(value))
                 {
                     RemoveAt(index);
                     return;
                 }
-                //else index++;
             }
         }
 
@@ -79,24 +73,26 @@ namespace MyLinkedList
                 nextValue = currentValueAtPosition.Next;
                 prevValue.Next = nextValue;
                 nextValue.Prev = prevValue;
-                //currentValueAtPosition.Next = null;
-                //currentValueAtPosition.Prev = null;
             }
             length--;
         }
 
         public T ElementAt(int position)
         {
-            if (position < 1 || position > length) throw new IndexOutOfRangeException();
-
-            //ListNode<T> element = head.ElementAt(position);
-            return head.ElementAt(position).Value;//element != null ? element.Value : throw new IndexOutOfRangeException();
+            if (position < 1 || position > length) throw new NullReferenceException();
+            return head.ElementAt(position).Value;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return null;
+            var element = head;
+            while (element != null)
+            {
+                yield return element.Value;
+                element = element.Next;
+            }
         }
+
 
         IEnumerator IEnumerable.GetEnumerator()
         {

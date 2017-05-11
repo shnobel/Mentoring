@@ -25,7 +25,7 @@ namespace LinkedListTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
+        [ExpectedException(typeof(NullReferenceException))]
         public void GetValueFromList_ShouldThrowException_WhenIndexOutOfRange()
         {
             list = new LinkedList<int>();
