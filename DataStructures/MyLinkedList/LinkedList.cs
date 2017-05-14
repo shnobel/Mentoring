@@ -10,11 +10,11 @@ namespace MyLinkedList
         private ListNode<T> current;
         private int length;
 
-        public int Length { get { return length; } }
+        public int Length { get { return length; } private set { length = value; }}
 
         public void Add(T value)
         {
-            var listNode = new ListNode<T>(value, null, current);
+            var listNode = new ListNode<T>(value, current, null);
             if (head == null)
             {
                 head = listNode;
@@ -24,26 +24,26 @@ namespace MyLinkedList
                 current.Next = listNode;
             }
             current = listNode;
-            length++;
+            Length++;
         }
 
         public void AddAt(T value, int position)
         {
             if (position >= Length || position < 1) throw new IndexOutOfRangeException();
 
-            var newValue = new ListNode<T>(value);
+            var newValue = new ListNode<T>(value, current.Prev, current.Next);
             var currentValueAtPosition = head.ElementAt(position);
             var prevValue = currentValueAtPosition.Prev;
             prevValue.Next = newValue;
             newValue.Prev = prevValue;
             newValue.Next = currentValueAtPosition;
             currentValueAtPosition.Prev = newValue;
-            length++;
+            Length++;
         }
 
         public void Remove(T value)
         {
-            for(int index = 1; index <= length; index++)
+            for(int index = 1; index <= Length; index++)
             {
                 if(head.ElementAt(index).Value.Equals(value))
                 {
@@ -55,16 +55,14 @@ namespace MyLinkedList
 
         public void RemoveAt(int position)
         {
-            if (position < 1 || position > length) throw new IndexOutOfRangeException();
+            if (position < 1 || position > Length) throw new IndexOutOfRangeException();
 
             ListNode<T> currentValueAtPosition;
             ListNode<T> nextValue;
 
             if (position == 1)
             {
-                nextValue = head.Next;
-                nextValue.Prev = null;
-                head = nextValue;
+                head = head.Next;
             }
             else
             {
@@ -74,12 +72,12 @@ namespace MyLinkedList
                 prevValue.Next = nextValue;
                 nextValue.Prev = prevValue;
             }
-            length--;
+            Length--;
         }
 
         public T ElementAt(int position)
         {
-            if (position < 1 || position > length) throw new NullReferenceException();
+            if (position < 1 || position > Length) throw new IndexOutOfRangeException();
             return head.ElementAt(position).Value;
         }
 
@@ -92,7 +90,6 @@ namespace MyLinkedList
                 element = element.Next;
             }
         }
-
 
         IEnumerator IEnumerable.GetEnumerator()
         {

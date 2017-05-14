@@ -6,14 +6,14 @@
         private ListNode<T> next;
         private ListNode<T> prev;
 
-        public ListNode(T value, ListNode<T> next, ListNode<T> prev)
+        public ListNode(T value,  ListNode<T> prev, ListNode<T> next)
         {
-            this.value = value;
-            this.next = next;
-            this.prev = prev;
+            Value = value;
+            Next = next;
+            Prev = prev;
         }
 
-        public T Value { get { return value; } set { } }
+        public T Value { get; private set; }
         public ListNode<T> Next { get { return next; } set { next = value; } }
         public ListNode<T> Prev { get { return prev; } set { prev = value; } }
 
@@ -23,7 +23,7 @@
         {
             ListNode<T> result;
             if (position == 1) result = this;
-            else if (position < 1 )//|| next == null)
+            else if (position < 1 )
             {
                 result = null;
             }
