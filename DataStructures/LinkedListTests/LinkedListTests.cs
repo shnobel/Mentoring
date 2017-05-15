@@ -82,7 +82,7 @@ namespace LinkedListTests
             list.Add(4);
             list.Remove(valueToRemove);
             //assert
-            Assert.IsFalse(list.ElementAt(2).Equals(valueToRemove));
+            Assert.AreNotEqual(list.ElementAt(2), valueToRemove);
             Assert.IsTrue(list.Length.Equals(3));
         }
 
@@ -100,7 +100,7 @@ namespace LinkedListTests
             list.Add(4);
             list.RemoveAt(index);
             //assert
-            Assert.IsFalse(list.ElementAt(2).Equals(valueToVerify));
+            Assert.AreNotEqual(list.ElementAt(2),valueToVerify);
             Assert.IsTrue(list.Length.Equals(3));
         }
     }
