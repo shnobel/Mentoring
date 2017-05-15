@@ -8,9 +8,8 @@ namespace MyLinkedList
     {
         private ListNode<T> head;
         private ListNode<T> current;
-        private int length;
 
-        public int Length { get { return length; } private set { length = value; }}
+        public int Length { get; private set; }
 
         public void Add(T value)
         {
@@ -31,12 +30,10 @@ namespace MyLinkedList
         {
             if (position >= Length || position < 1) throw new IndexOutOfRangeException();
 
-            var newValue = new ListNode<T>(value, current.Prev, current.Next);
             var currentValueAtPosition = head.ElementAt(position);
             var prevValue = currentValueAtPosition.Prev;
+            var newValue = new ListNode<T>(value, prevValue, currentValueAtPosition);
             prevValue.Next = newValue;
-            newValue.Prev = prevValue;
-            newValue.Next = currentValueAtPosition;
             currentValueAtPosition.Prev = newValue;
             Length++;
         }
@@ -57,18 +54,16 @@ namespace MyLinkedList
         {
             if (position < 1 || position > Length) throw new IndexOutOfRangeException();
 
-            ListNode<T> currentValueAtPosition;
-            ListNode<T> nextValue;
-
+           
             if (position == 1)
             {
                 head = head.Next;
             }
             else
             {
-                currentValueAtPosition = head.ElementAt(position);
+                var currentValueAtPosition = head.ElementAt(position);
                 var prevValue = currentValueAtPosition.Prev;
-                nextValue = currentValueAtPosition.Next;
+                var nextValue = currentValueAtPosition.Next;
                 prevValue.Next = nextValue;
                 nextValue.Prev = prevValue;
             }

@@ -3,8 +3,6 @@
     public class ListNode<T>
     {
         private T value;
-        private ListNode<T> next;
-        private ListNode<T> prev;
 
         public ListNode(T value,  ListNode<T> prev, ListNode<T> next)
         {
@@ -14,8 +12,8 @@
         }
 
         public T Value { get; private set; }
-        public ListNode<T> Next { get { return next; } set { next = value; } }
-        public ListNode<T> Prev { get { return prev; } set { prev = value; } }
+        public ListNode<T> Next { get; set ; }
+        public ListNode<T> Prev { get; set; }
 
         public ListNode(T value) : this(value, null, null){}
 
@@ -29,7 +27,7 @@
             }
             else
             {
-                result = next.ElementAt(position - 1);
+                result = Next.ElementAt(position - 1);
             }
             return result;
         }
