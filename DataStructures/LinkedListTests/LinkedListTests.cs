@@ -28,7 +28,7 @@ namespace LinkedListTests
             list.Add(19);
             //assert
             Assert.IsTrue(list.Length.Equals(1));
-            Assert.IsTrue(list.ElementAt(1).Equals(19));
+            Assert.AreEqual(list.ElementAt(1), 19);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace LinkedListTests
             list.Add(4);
             list.AddAt(5, 2);
             //assert
-            Assert.IsTrue(list.ElementAt(2).Equals(5));
+            Assert.AreEqual(list.ElementAt(2), 5);
         }
 
         [TestMethod]
