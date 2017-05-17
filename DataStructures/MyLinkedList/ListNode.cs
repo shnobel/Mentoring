@@ -16,21 +16,5 @@
         public ListNode<T> Prev { get; set; }
 
         public ListNode(T value) : this(value, null, null){}
-
-        //public ListNode<T> ElementAt(int position)
-        //{
-        //    ListNode<T> result;
-        //    if (position == 1) result = this;
-        //    else if (position < 1 )
-        //    {
-        //        result = null;
-        //    }
-        //    else
-        //    {
-        //        result = Next.ElementAt(position - 1);
-        //    }
-        //    return result;
-        //}
-
     }
 }

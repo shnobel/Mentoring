@@ -28,7 +28,7 @@ namespace LinkedListTests
             list.Add(19);
             //assert
             Assert.IsTrue(list.Length.Equals(1));
-            Assert.AreEqual(list.ElementAt(1), 19);
+            Assert.AreEqual(list.ElementAt(1).Value, 19);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace LinkedListTests
             list.Add(4);
             list.AddAt(5, 2);
             //assert
-            Assert.AreEqual(list.ElementAt(2), 5);
+            Assert.AreEqual(list.ElementAt(2).Value, 5);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace LinkedListTests
             list.Add(4);
             list.Remove(valueToRemove);
             //assert
-            Assert.AreNotEqual(list.ElementAt(2), valueToRemove);
+            Assert.AreNotEqual(list.ElementAt(2).Value, valueToRemove);
             Assert.IsTrue(list.Length.Equals(3));
         }
 
@@ -100,7 +100,7 @@ namespace LinkedListTests
             list.Add(4);
             list.RemoveAt(index);
             //assert
-            Assert.AreNotEqual(list.ElementAt(2),valueToVerify);
+            Assert.AreNotEqual(list.ElementAt(2).Value, valueToVerify);
             Assert.IsTrue(list.Length.Equals(3));
         }
     }

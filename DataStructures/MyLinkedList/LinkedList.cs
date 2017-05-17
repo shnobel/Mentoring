@@ -17,7 +17,7 @@ namespace MyLinkedList
             {
                 if(counter == null)
                 {
-                    return head.Next;
+                    return head;
                 }
                 return counter;
             }
@@ -46,7 +46,6 @@ namespace MyLinkedList
             if (position >= Length || position < 0) throw new IndexOutOfRangeException();
 
             var currentValueAtPosition = ElementAt(position);
-            //var currentValueAtPosition = head.ElementAt(position);
             var prevValue = currentValueAtPosition.Prev;
             var newValue = new ListNode<T>(value, prevValue, currentValueAtPosition);
             prevValue.Next = newValue;
@@ -59,7 +58,6 @@ namespace MyLinkedList
             for(int index = 0; index <= Length; index++)
             {
                 var currentElement = ElementAt(index);
-                //var currentElement = head.ElementAt(index);
                 if (currentElement.Value.Equals(value))
                 {
                     DeleteElement(index, currentElement);
@@ -71,7 +69,6 @@ namespace MyLinkedList
         public void RemoveAt(int position)
         {
             var currentValueAtPosition = ElementAt(position);
-            //var currentValueAtPosition = head.ElementAt(position);
             DeleteElement(position, currentValueAtPosition);
         }
 
@@ -92,17 +89,10 @@ namespace MyLinkedList
             Length--;
         }
 
-        //public T ElementAt(int position)
-        //{
-        //    if (position < 1 || position > Length) throw new IndexOutOfRangeException();
-        //    return head.ElementAt(position).Value;
-        //}
-
         public ListNode<T> ElementAt(int position)
         {
             if (position < 0 || position > Length) throw new IndexOutOfRangeException();
             ListNode<T> result;
-            //if (position == 1) result = this;
             if (position == 0) result = Counter;
             else if (position < 0)
             {
@@ -112,8 +102,8 @@ namespace MyLinkedList
             {
                 Counter = Counter.Next;
                 result = ElementAt(position - 1);
-                //result = Next.ElementAt(position - 1);
             }
+            Counter = null;
             return result;
         }
 
