@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26206.0
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackAndQueueTests", "StackAndQueueTests\StackAndQueueTests.csproj", "{D9F5B695-C153-4B10-BABC-9BAD7B0FD3B4}"
 EndProject
@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedList", "MyLinkedList\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedListTests", "LinkedListTests\LinkedListTests.csproj", "{5E06C9EE-33DF-4812-81FE-B554E9A9F014}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTable", "HashTable\HashTable.csproj", "{3459DA51-B92E-4407-B789-570FCE909DC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHashTable", "MyHashTable\MyHashTable.csproj", "{3459DA51-B92E-4407-B789-570FCE909DC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HashTableTests", "HashTableTests\HashTableTests.csproj", "{D2A6B5F7-4095-4B5D-8060-4E72C53E48E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHashTableTests", "MyHashTableTests\MyHashTableTests.csproj", "{D2A6B5F7-4095-4B5D-8060-4E72C53E48E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

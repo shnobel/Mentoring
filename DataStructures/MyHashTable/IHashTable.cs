@@ -1,4 +1,4 @@
-﻿namespace HashTable
+﻿namespace MyHashTable
 {
     interface IHashTable
     {

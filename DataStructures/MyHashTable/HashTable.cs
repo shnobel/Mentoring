@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
 
-namespace HashTable
+namespace MyHashTable
 {
-    public class HashTable<TKey, TValue> : IHashTable
+    public class HashTable : IHashTable
     {
-        Entry<TKey, TValue>[] list;
+        private Entry[] list;
 
-        public HashTable(int size)
+        public HashTable()
         {
-            list = new Entry<TKey, TValue>[size];
+            list = new Entry[10];
         }
 
         public int Size
@@ -29,16 +29,7 @@ namespace HashTable
                 {
                     throw new Exception();
                 }
-                object result = null;
-                foreach(var item in list)
-                {
-                    if (result != null) return result;
-                    if (item == null)
-                    {
-                        continue;
-                    }
-                    result = item.GetValue();
-                }
+                var result = list.Single(item => item != null && item.GetKey().Equals(key)).GetValue();
                 return result;
             }
             set
@@ -67,7 +58,7 @@ namespace HashTable
                 throw new Exception();
             }
 
-            var entry = new Entry<TKey,TValue>((TKey)key, (TValue)value);
+            var entry = new Entry(key, value);
             var hash = GetHashCode(key);
             while (list[hash] != null)
             {
@@ -92,7 +83,7 @@ namespace HashTable
                 if (result) return result;
                 try
                 {
-                    result = item.Getkey().Equals(key);
+                    result = item.GetKey().Equals(key);
                 }
                 catch (NullReferenceException e)
                 {

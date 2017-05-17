@@ -1,6 +1,6 @@
-﻿namespace HashTable
+﻿namespace MyHashTable
 {
-    public class Entry<TKey, TValue>
+    public class Entry
     {
         private object Key { get; set; }
         private object Data { get; set; }
@@ -10,7 +10,7 @@
             Data = data;
         }
 
-        public object Getkey()
+        public object GetKey()
         {
             return Key ?? null;
         }
