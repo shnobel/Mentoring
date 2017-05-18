@@ -5,33 +5,31 @@ namespace MyHashTable
 {
     public class HashTable : IHashTable
     {
-        private Entry[] list;
+        private Entry[] buckets;
 
         public HashTable()
         {
-            list = new Entry[10];
+            buckets = new Entry[10];
         }
 
         public int Size
         {
             get
             {
-                return list.Select(item => item).OfType<Entry>().Count();
+                return buckets.Select(item => item).OfType<Entry>().Count();
             }
         }
-
 
         public object this[object key]
         {
             get
             {
-                if (!Contains(key))
-                {
-                    throw new Exception();
-                }
                 object result;
-                TryGet(key, out result);
-                return result;
+                if (TryGet(key, out result))
+                {
+                    return result;
+                }
+                throw new IndexOutOfRangeException();
             }
             set
             {
@@ -61,9 +59,9 @@ namespace MyHashTable
 
             var entry = new Entry(key, value);
             var hash = GetHashCode(key);
-            while (list[hash] != null)
+            while (buckets[hash] != null)
             {
-                if(hash == list.Length)
+                if(hash == buckets.Length)
                 {
                     hash--;
                     break;
@@ -73,13 +71,13 @@ namespace MyHashTable
                     hash++;
                 }
             }
-            list[hash] = entry;
+            buckets[hash] = entry;
         }
 
         public bool Contains(object key)
         {
             var result = false;
-            foreach(var item in list)
+            foreach(var item in buckets)
             {
                 if (result) return result;
                 try
@@ -101,7 +99,7 @@ namespace MyHashTable
                 value = null;
                 return false;
             }
-            value = list.Single(item => item != null && item.Key.Equals(key)).Data;
+            value = buckets.Single(item => item != null && item.Key.Equals(key)).Data;
             return value != null ? true : false;
         }
 
@@ -110,7 +108,7 @@ namespace MyHashTable
             unchecked // Overflow is fine, just wrap
             {
                 int hash = 17;
-                hash = (hash * 23 + obj.GetHashCode()) % list.Length;
+                hash = (hash * 23 + obj.GetHashCode()) % buckets.Length;
                 return hash < 0 ? hash*-1 : hash;
             }
         }

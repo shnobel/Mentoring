@@ -6,22 +6,22 @@ namespace MyLinkedList
 {
     public class LinkedList<T> : IEnumerable<T>
     {
-        private ListNode<T> Head { get; set; }
-        private ListNode<T> Current { get; set; }
+        private ListNode<T> head;
+        private ListNode<T> current;
 
         public int Length { get; private set; }
         public void Add(T value)
         {
-            var listNode = new ListNode<T>(value, Current, null);
-            if (Head == null)
+            var listNode = new ListNode<T>(value, current, null);
+            if (head == null)
             {
-                Head = listNode;
+                head = listNode;
             }
             else
             {
-                Current.Next = listNode;
+                current.Next = listNode;
             }
-            Current = listNode;
+            current = listNode;
             Length++;
         }
 
@@ -61,13 +61,13 @@ namespace MyLinkedList
             if (position < 0 || position > Length) throw new IndexOutOfRangeException();
             if (position == 0)
             {
-                Head = Head.Next;
+                head = head.Next;
             }
 
             if (position == Length - 1)
             {
-                Current = element.Prev;
-                Current.Next = null;
+                current = element.Prev;
+                current.Next = null;
             }
 
             else
@@ -82,8 +82,8 @@ namespace MyLinkedList
 
         public ListNode<T> ElementAt(int position)
         {
-            if (position < 0 || position > Length || Head == null) throw new IndexOutOfRangeException();
-            return ElementAt(position, Head);
+            if (position < 0 || position > Length || head == null) throw new IndexOutOfRangeException();
+            return ElementAt(position, head);
         }
 
         private ListNode<T> ElementAt(int position, ListNode<T> headValue)
@@ -93,7 +93,7 @@ namespace MyLinkedList
 
         public IEnumerator<T> GetEnumerator()
         {
-            var element = Head;
+            var element = head;
             while (element != null)
             {
                 yield return element.Value;
