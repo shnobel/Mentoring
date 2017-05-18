@@ -6,38 +6,22 @@ namespace MyLinkedList
 {
     public class LinkedList<T> : IEnumerable<T>
     {
-        private ListNode<T> head;
-        private ListNode<T> current;
-        private ListNode<T> counter;
+        private ListNode<T> Head { get; set; }
+        private ListNode<T> Current { get; set; }
 
         public int Length { get; private set; }
-        private ListNode<T> Counter
-        {
-            get
-            {
-                if(counter == null)
-                {
-                    return head;
-                }
-                return counter;
-            }
-            set
-            {
-                counter = value;
-            }
-        }
         public void Add(T value)
         {
-            var listNode = new ListNode<T>(value, current, null);
-            if (head == null)
+            var listNode = new ListNode<T>(value, Current, null);
+            if (Head == null)
             {
-                head = listNode;
+                Head = listNode;
             }
             else
             {
-                current.Next = listNode;
+                Current.Next = listNode;
             }
-            current = listNode;
+            Current = listNode;
             Length++;
         }
 
@@ -77,8 +61,15 @@ namespace MyLinkedList
             if (position < 0 || position > Length) throw new IndexOutOfRangeException();
             if (position == 0)
             {
-                head = head.Next;
+                Head = Head.Next;
             }
+
+            if (position == Length - 1)
+            {
+                Current = element.Prev;
+                Current.Next = null;
+            }
+
             else
             {
                 var prevValue = element.Prev;
@@ -91,25 +82,18 @@ namespace MyLinkedList
 
         public ListNode<T> ElementAt(int position)
         {
-            if (position < 0 || position > Length) throw new IndexOutOfRangeException();
-            ListNode<T> result;
-            if (position == 0) result = Counter;
-            else if (position < 0)
-            {
-                result = null;
-            }
-            else
-            {
-                Counter = Counter.Next;
-                result = ElementAt(position - 1);
-            }
-            Counter = null;
-            return result;
+            if (position < 0 || position > Length || Head == null) throw new IndexOutOfRangeException();
+            return ElementAt(position, Head);
+        }
+
+        private ListNode<T> ElementAt(int position, ListNode<T> headValue)
+        {
+            return position == 0 ? headValue : ElementAt(position - 1, headValue.Next);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var element = head;
+            var element = Head;
             while (element != null)
             {
                 yield return element.Value;

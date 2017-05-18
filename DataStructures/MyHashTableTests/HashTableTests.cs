@@ -10,24 +10,24 @@ namespace HashTableTests
         HashTable table;
 
         [TestMethod]
-        public void InitHashTable_ShouldInitHashTableWithFixedSize()
+        public void Init_ShouldInitHashTableWithFixedSize()
         {
             //arrange
             table = new HashTable();
             //act
             var size = table.Size;
             //assert
-            Assert.IsTrue(size.Equals(10));
+            Assert.IsTrue(size.Equals(0));
         }
 
         [TestMethod]
-        public void AddElementToHashTable_ShouldAddElementToHashTable_WhenValueNotNull()
+        public void Add_ShouldAddElementToHashTable_WhenValueNotNull()
         {
             //arrange
             table = new HashTable();
             //act
             table.Add(1, "test");
-            table.Add(1, "test2");
+            //table.Add(1, "test2");
             table.Add(2, "test");
             table.Add(6, "6");
             table.Add(120319, "120319");
@@ -38,7 +38,7 @@ namespace HashTableTests
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void TryToAddElementToHashTable_ShouldThrowException_WhenValueIsNull()
+        public void Add_ShouldThrowException_WhenValueIsNull()
         {
             //arrange
             table = new HashTable();
@@ -49,7 +49,7 @@ namespace HashTableTests
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void TryToAddElementToHashTable_ShouldThrowException_WhenHashTableContainsKey()
+        public void Add_ShouldThrowException_WhenHashTableContainsKey()
         {
             //arrange
             table = new HashTable();

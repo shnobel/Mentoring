@@ -16,7 +16,7 @@ namespace MyHashTable
         {
             get
             {
-                return list.Length;
+                return list.Select(item => item).OfType<Entry>().Count();
             }
         }
 
@@ -29,7 +29,8 @@ namespace MyHashTable
                 {
                     throw new Exception();
                 }
-                var result = list.Single(item => item != null && item.GetKey().Equals(key)).GetValue();
+                object result;
+                TryGet(key, out result);
                 return result;
             }
             set
@@ -83,7 +84,7 @@ namespace MyHashTable
                 if (result) return result;
                 try
                 {
-                    result = item.GetKey().Equals(key);
+                    result = item.Key.Equals(key);
                 }
                 catch (NullReferenceException e)
                 {
@@ -95,16 +96,13 @@ namespace MyHashTable
 
         public bool TryGet(object key, out object value)
         {
-            try
-            {
-                value = this[key];
-                return true;
-            }
-            catch(Exception e)
+            if (!Contains(key))
             {
                 value = null;
                 return false;
             }
+            value = list.Single(item => item != null && item.Key.Equals(key)).Data;
+            return value != null ? true : false;
         }
 
         public int GetHashCode(object obj)
