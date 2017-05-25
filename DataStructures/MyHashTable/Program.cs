@@ -10,7 +10,12 @@ namespace MyHashTable
     {
         static void Main(string[] args)
         {
-            
+            var table = new HashTable();
+            table.Add(1, "value1");
+            table.Add(2, "value1");
+            table.Add(3, "value1");
+            table.Add(4, "value1");
+            table.Add(1, "value100");
         }
     }
 }

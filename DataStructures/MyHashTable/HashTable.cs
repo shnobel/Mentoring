@@ -1,24 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyHashTable
 {
     public class HashTable : IHashTable
     {
-        private Entry[] buckets;
+        private LinkedList<Entry>[] buckets;
+        private const double LoadFactor = 0.95;
 
         public HashTable()
         {
-            buckets = new Entry[10];
+            buckets = new LinkedList<Entry>[10];
         }
 
-        public int Size
-        {
-            get
-            {
-                return buckets.Select(item => item).OfType<Entry>().Count();
-            }
-        }
+        public int Size { get; private set; }
 
         public object this[object key]
         {
@@ -42,7 +38,7 @@ namespace MyHashTable
                 {
                     return;
                 }
-               
+
                 else
                 {
                     Add(key, value);
@@ -52,44 +48,24 @@ namespace MyHashTable
 
         public void Add(object key, object value)
         {
-            if (Contains(key) || value == null)
+            var index = GetBucketIndex(key);
+            var bucket = GetBucket(index);
+            if(bucket.Any(item => item.Key.Equals(key)) || value == null)
             {
                 throw new Exception();
             }
 
             var entry = new Entry(key, value);
-            var hash = GetHashCode(key);
-            while (buckets[hash] != null)
-            {
-                if(hash == buckets.Length)
-                {
-                    hash--;
-                    break;
-                }
-                else
-                {
-                    hash++;
-                }
-            }
-            buckets[hash] = entry;
+            bucket.AddLast(entry);
+            Size++;
+            Resize();
         }
 
         public bool Contains(object key)
         {
-            var result = false;
-            foreach(var item in buckets)
-            {
-                if (result) return result;
-                try
-                {
-                    result = item.Key.Equals(key);
-                }
-                catch (NullReferenceException e)
-                {
-                    result = false;
-                }
-            }
-            return result;
+            var index = GetBucketIndex(key);
+            var bucket = GetBucket(index);
+            return bucket.Any(item => item!=null && item.Key.Equals(key));
         }
 
         public bool TryGet(object key, out object value)
@@ -99,18 +75,42 @@ namespace MyHashTable
                 value = null;
                 return false;
             }
-            value = buckets.Single(item => item != null && item.Key.Equals(key)).Data;
+            var bucket = GetBucket(GetBucketIndex(key));
+            value = bucket.Single(item => item != null && item.Key.Equals(key)).Data;
             return value != null ? true : false;
         }
 
-        public int GetHashCode(object obj)
+        public int GetBucketIndex(object obj)
+        {
+            int index = GetHashCode(obj) % buckets.Length;
+            return index < 0 ? index * -1 : index;
+        }
+
+        private int GetHashCode(object obj)
         {
             unchecked // Overflow is fine, just wrap
             {
                 int hash = 17;
-                hash = (hash * 23 + obj.GetHashCode()) % buckets.Length;
-                return hash < 0 ? hash*-1 : hash;
+                return hash * 23 + obj.GetHashCode();
             }
+        }
+
+        private LinkedList<Entry> GetBucket(int index)
+        {
+            if (buckets[index] == null)
+            {
+                buckets[index] = new LinkedList<Entry>();
+            }
+            return buckets[index];
+        }
+
+        private void Resize()
+        {
+            if(Size/buckets.Length < LoadFactor)
+            {
+                return;
+            }
+            Array.Resize(ref buckets, buckets.Length * 2);
         }
     }
 }
