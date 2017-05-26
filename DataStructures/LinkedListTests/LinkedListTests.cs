@@ -20,7 +20,7 @@ namespace LinkedListTests
         }
 
         [TestMethod]
-        public void AddValueToList_ShouldAddValueToTheList()
+        public void Add_ShouldAddValueToTheList()
         {
             //arrange 
             list = new LinkedList<int>();
@@ -33,14 +33,14 @@ namespace LinkedListTests
 
         [TestMethod]
         [ExpectedException(typeof(IndexOutOfRangeException))]
-        public void GetValueFromList_ShouldThrowException_WhenIndexOutOfRange()
+        public void Get_ShouldThrowException_WhenIndexOutOfRange()
         {
             //arrange
             list = new LinkedList<int>();
-            //act
             list.Add(19);
+
+            //act & assert
             list.ElementAt(-1);
-            // assert is handled by the ExpectedException 
         }
 
         [TestMethod]
@@ -49,9 +49,8 @@ namespace LinkedListTests
         {
             //arrange
             list = new LinkedList<int>();
-            //act
+            //act & assert
             list.ElementAt(0);
-            // assert is handled by the ExpectedException 
         }
 
         [TestMethod]
@@ -59,14 +58,17 @@ namespace LinkedListTests
         {
             //arrange
             list = new LinkedList<int>();
-            //act
             list.Add(1);
             list.Add(2);
             list.Add(3);
             list.Add(4);
+            //act
             list.AddAt(5, 2);
+            list.AddAt(6, 2);
+            list.AddAt(7, 2);
+            list.AddAt(8, 2);
             //assert
-            Assert.AreEqual(list.ElementAt(2).Value, 5);
+            Assert.AreEqual(list.ElementAt(2).Value, 8);
         }
 
         [TestMethod]
@@ -75,11 +77,11 @@ namespace LinkedListTests
             //arrange
             list = new LinkedList<int>();
             int valueToRemove = 100;
-            //act
             list.Add(1);
             list.Add(valueToRemove);
             list.Add(3);
             list.Add(4);
+            //act
             list.Remove(valueToRemove);
             //assert
             Assert.AreNotEqual(list.ElementAt(2).Value, valueToRemove);
@@ -93,11 +95,11 @@ namespace LinkedListTests
             list = new LinkedList<int>();
             int index = 2;
             int valueToVerify = 100;
-            //act
             list.Add(1);
             list.Add(2);
             list.Add(3);
             list.Add(4);
+            //act
             list.RemoveAt(3);
             list.Add(1);
             //assert
