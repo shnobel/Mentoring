@@ -83,12 +83,18 @@ namespace MyLinkedList
         public ListNode<T> ElementAt(int position)
         {
             if (position < 0 || position > Length || head == null) throw new IndexOutOfRangeException();
-            return ElementAt(position, head);
+            current = head;
+            return GetElementByIndex(position);
         }
 
-        private ListNode<T> ElementAt(int position, ListNode<T> headValue)
+        private ListNode<T> GetElementByIndex(int position)
         {
-            return position == 0 ? headValue : ElementAt(position - 1, headValue.Next);
+            if(position == 0)
+            {
+                return current;
+            }
+            current = current.Next;
+            return GetElementByIndex(position - 1);
         }
 
         public IEnumerator<T> GetEnumerator()
