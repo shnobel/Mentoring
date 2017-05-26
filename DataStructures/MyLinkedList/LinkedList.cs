@@ -39,32 +39,32 @@ namespace MyLinkedList
 
         public void Remove(T value)
         {
-            for(int index = 0; index <= Length; index++)
+            var currentElement = head;
+            for (int index = 0; index <= Length; index++)
             {
-                var currentElement = ElementAt(index);
                 if (currentElement.Value.Equals(value))
                 {
-                    DeleteElement(index, currentElement);
+                    DeleteElement(currentElement);
                     return;
                 }
+                currentElement = currentElement.Next;
             }
         }
 
         public void RemoveAt(int position)
         {
             var currentValueAtPosition = ElementAt(position);
-            DeleteElement(position, currentValueAtPosition);
+            DeleteElement(currentValueAtPosition);
         }
 
-        private void DeleteElement(int position, ListNode<T> element)
+        private void DeleteElement(ListNode<T> element)
         {
-            if (position < 0 || position > Length) throw new IndexOutOfRangeException();
-            if (position == 0)
+            if (element.Prev == null)
             {
                 head = head.Next;
             }
 
-            if (position == Length - 1)
+            if (element.Next == null)
             {
                 current = element.Prev;
                 current.Next = null;
