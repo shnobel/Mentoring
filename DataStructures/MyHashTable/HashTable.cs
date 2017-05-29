@@ -25,13 +25,23 @@ namespace MyHashTable
                 {
                     return result;
                 }
-                throw new IndexOutOfRangeException();
+                throw new ArgumentException();
             }
             set
             {
-                if (Contains(key))
+                var index = GetBucketIndex(key);
+                var bucket = GetBucket(index);
+                if (Contains(key) && value == null)
                 {
-                    throw new Exception();
+                    bucket.Remove(bucket.Single(item => item.Key.Equals(key)));
+                    return;
+                }
+
+                if (Contains(key) && value != null)
+                {
+                    var entry = bucket.Single(item => item.Key.Equals(key));
+                    entry.Data = value;
+                    return;
                 }
 
                 if (value == null)
@@ -41,7 +51,7 @@ namespace MyHashTable
 
                 else
                 {
-                    Add(key, value);
+                    AddEntry(index, bucket, new Entry(key, value));
                 }
             }
         }
@@ -54,18 +64,13 @@ namespace MyHashTable
             {
                 throw new Exception();
             }
-
-            var entry = new Entry(key, value);
-            bucket.AddLast(entry);
-            Size++;
-            Resize();
+            AddEntry(index, bucket, new Entry(key, value));
         }
-
+        
         public bool Contains(object key)
         {
-            var index = GetBucketIndex(key);
-            var bucket = GetBucket(index);
-            return bucket.Any(item => item!=null && item.Key.Equals(key));
+            var bucket = GetBucket(GetBucketIndex(key));
+            return bucket.Any(item => item.Key.Equals(key));
         }
 
         public bool TryGet(object key, out object value)
@@ -76,22 +81,24 @@ namespace MyHashTable
                 return false;
             }
             var bucket = GetBucket(GetBucketIndex(key));
-            value = bucket.Single(item => item != null && item.Key.Equals(key)).Data;
+            value = bucket.Single(item => item.Key.Equals(key)).Data;
             return value != null ? true : false;
         }
 
-        public int GetBucketIndex(object obj)
+        private int GetBucketIndex(object obj)
         {
-            int index = GetHashCode(obj) % buckets.Length;
+            int index = GetHashCode(obj, buckets.Length) % buckets.Length-1;
             return index < 0 ? index * -1 : index;
         }
 
-        private int GetHashCode(object obj)
+        private int GetHashCode(object obj, int length)
         {
-            unchecked // Overflow is fine, just wrap
+            unchecked 
             {
                 int hash = 17;
-                return hash * 23 + obj.GetHashCode();
+                hash = hash * 23 + obj.GetHashCode();
+                hash = hash * 23 + length.GetHashCode();
+                return hash;
             }
         }
 
@@ -111,6 +118,13 @@ namespace MyHashTable
                 return;
             }
             Array.Resize(ref buckets, buckets.Length * 2);
+        }
+
+        private void AddEntry(int index, LinkedList<Entry> bucket, Entry entry)
+        {
+            bucket.AddLast(entry);
+            Size++;
+            Resize();
         }
     }
 }

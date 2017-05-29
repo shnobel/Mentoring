@@ -27,11 +27,7 @@ namespace HashTableTests
             table = new HashTable();
             //act
             table.Add(1, "test");
-            //table.Add(1, "test2");
             table.Add(2, "test");
-            table.Add(6, "6");
-            table.Add(120319, "120319");
-            table.Add(123, "123");
             //assert
             Assert.IsTrue(table[2].Equals("test"));
         }
@@ -60,7 +56,7 @@ namespace HashTableTests
         }
 
         [TestMethod]
-        public void VerifyContainsElementByKey_ShouldReturnTrue_WhenHashTableContainsKey()
+        public void Contains_ShouldReturnTrue_WhenHashTableContainsKey()
         {
             //arrange
             table = new HashTable();
@@ -73,7 +69,7 @@ namespace HashTableTests
         }
 
         [TestMethod]
-        public void VerifyContainsElementByKey_ShouldReturnFalse_WhenHashTableDoesnotContainKey()
+        public void Contains_ShouldReturnFalse_WhenHashTableDoesnotContainKey()
         {
             //arrange
             table = new HashTable();
@@ -85,7 +81,7 @@ namespace HashTableTests
         }
 
         [TestMethod]
-        public void TryGetElement_ShouldReturnTrueAndElement_WhenValueNotNullAndPresent()
+        public void TryGet_ShouldReturnTrueAndElement_WhenValueNotNullAndPresent()
         {
             //arrange
             table = new HashTable();
@@ -98,7 +94,7 @@ namespace HashTableTests
         }
 
         [TestMethod]
-        public void TryGetElement_ShouldReturnTrueAndElement_WhenValueNotNullAndPresent_Negative()
+        public void TryGet_ShouldReturnTrueAndElement_WhenValueNotNullAndPresent_Negative()
         {
             //arrange
             table = new HashTable();
