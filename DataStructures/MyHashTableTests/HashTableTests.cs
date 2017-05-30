@@ -33,6 +33,20 @@ namespace HashTableTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Set_ShouldRemoveElementFromHashTable_WhenValueNullAndContainsKey()
+        {
+            //arrange
+            table = new HashTable();
+            //act
+            table.Add(1, "test");
+            table.Add(2, "test");
+            table[1] = null;
+            //assert is handled by the ExpectedException 
+            var value = table[1];
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(Exception))]
         public void Add_ShouldThrowException_WhenValueIsNull()
         {

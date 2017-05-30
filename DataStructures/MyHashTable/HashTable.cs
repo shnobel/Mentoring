@@ -14,6 +14,11 @@ namespace MyHashTable
             buckets = new LinkedList<Entry>[10];
         }
 
+        private HashTable(int size)
+        {
+            buckets = new LinkedList<Entry>[size];
+        }
+
         public int Size { get; private set; }
 
         public object this[object key]
@@ -25,69 +30,68 @@ namespace MyHashTable
                 {
                     return result;
                 }
-                throw new ArgumentException();
+                throw new ArgumentException($"Table doesn't contain a key {key}");
             }
             set
             {
-                var index = GetBucketIndex(key);
-                var bucket = GetBucket(index);
-                if (Contains(key) && value == null)
+                var bucket = GetBucket(key);
+                if (bucket.Count != 0)
                 {
-                    bucket.Remove(bucket.Single(item => item.Key.Equals(key)));
-                    return;
-                }
-
-                if (Contains(key) && value != null)
-                {
+                    if(value == null)
+                    {
+                        bucket.Remove(bucket.Single(item => item.Key.Equals(key)));
+                        Size--;
+                        return;
+                    }
                     var entry = bucket.Single(item => item.Key.Equals(key));
                     entry.Data = value;
                     return;
                 }
 
-                if (value == null)
-                {
-                    return;
-                }
-
                 else
                 {
-                    AddEntry(index, bucket, new Entry(key, value));
+                    if (value == null)
+                    {
+                        return;
+                    }
+                    AddEntry(bucket, new Entry(key, value));
+                    Size++;
                 }
             }
         }
 
         public void Add(object key, object value)
         {
-            var index = GetBucketIndex(key);
-            var bucket = GetBucket(index);
+            var bucket = GetBucket(key);
             if(bucket.Any(item => item.Key.Equals(key)) || value == null)
             {
                 throw new Exception();
             }
-            AddEntry(index, bucket, new Entry(key, value));
+            AddEntry(bucket, new Entry(key, value));
+            Size++;
         }
         
         public bool Contains(object key)
         {
-            var bucket = GetBucket(GetBucketIndex(key));
+            var bucket = GetBucket(key);
             return bucket.Any(item => item.Key.Equals(key));
         }
 
         public bool TryGet(object key, out object value)
         {
-            if (!Contains(key))
+            var bucket = GetBucket(key);
+            if (bucket.Count == 0)
             {
                 value = null;
                 return false;
             }
-            var bucket = GetBucket(GetBucketIndex(key));
             value = bucket.Single(item => item.Key.Equals(key)).Data;
             return value != null ? true : false;
         }
 
         private int GetBucketIndex(object obj)
         {
-            int index = GetHashCode(obj, buckets.Length) % buckets.Length-1;
+            int index = Math.Abs(200 * GetHashCode(obj, buckets.Length) + 17) % 1232432453 % (buckets.Length-1);
             return index < 0 ? index * -1 : index;
         }
 
@@ -102,8 +106,9 @@ namespace MyHashTable
             }
         }
 
-        private LinkedList<Entry> GetBucket(int index)
+        private LinkedList<Entry> GetBucket(object key)
         {
+            int index = GetBucketIndex(key);
             if (buckets[index] == null)
             {
                 buckets[index] = new LinkedList<Entry>();
@@ -117,13 +122,17 @@ namespace MyHashTable
             {
                 return;
             }
-            Array.Resize(ref buckets, buckets.Length * 2);
+            var entriesToMove = buckets.Where(bucket => bucket != null && bucket.Count != 0 ).SelectMany(item => item);
+            buckets = new LinkedList<Entry>[buckets.Length * 2];
+            foreach(var entry in entriesToMove)
+            {
+                Add(entry.Key, entry.Data);
+            }
         }
 
-        private void AddEntry(int index, LinkedList<Entry> bucket, Entry entry)
+        private void AddEntry(LinkedList<Entry> bucket, Entry entry)
         {
             bucket.AddLast(entry);
-            Size++;
             Resize();
         }
     }
