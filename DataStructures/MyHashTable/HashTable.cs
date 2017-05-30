@@ -14,11 +14,6 @@ namespace MyHashTable
             buckets = new LinkedList<Entry>[10];
         }
 
-        private HashTable(int size)
-        {
-            buckets = new LinkedList<Entry>[size];
-        }
-
         public int Size { get; private set; }
 
         public object this[object key]
