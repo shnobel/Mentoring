@@ -30,7 +30,7 @@ namespace MyHashTable
             set
             {
                 var bucket = GetBucket(key);
-                if (bucket.Count != 0)
+                if (Contains(key))
                 {
                     if(value == null)
                     {
@@ -50,7 +50,6 @@ namespace MyHashTable
                         return;
                     }
                     AddEntry(bucket, new Entry(key, value));
-                    Size++;
                 }
             }
         }
@@ -63,13 +62,11 @@ namespace MyHashTable
                 throw new Exception();
             }
             AddEntry(bucket, new Entry(key, value));
-            Size++;
         }
         
         public bool Contains(object key)
         {
-            var bucket = GetBucket(key);
-            return bucket.Any(item => item.Key.Equals(key));
+            return GetBucket(key).Any(item => item.Key.Equals(key));
         }
 
         public bool TryGet(object key, out object value)
@@ -80,14 +77,13 @@ namespace MyHashTable
                 value = null;
                 return false;
             }
-            value = bucket.Single(item => item.Key.Equals(key)).Data;
+            value = bucket.FirstOrDefault(item => item.Key.Equals(key)).Data;
             return value != null ? true : false;
         }
 
         private int GetBucketIndex(object obj)
         {
-            int index = Math.Abs(200 * GetHashCode(obj, buckets.Length) + 17) % 1232432453 % (buckets.Length-1);
-            return index < 0 ? index * -1 : index;
+            return Math.Abs(127 * GetHashCode(obj, buckets.Length) + 17) % 16908799 % (buckets.Length-1);
         }
 
         private int GetHashCode(object obj, int length)
@@ -117,6 +113,7 @@ namespace MyHashTable
             {
                 return;
             }
+            Size = 0;
             var entriesToMove = buckets.Where(bucket => bucket != null && bucket.Count != 0 ).SelectMany(item => item);
             buckets = new LinkedList<Entry>[buckets.Length * 2];
             foreach(var entry in entriesToMove)
@@ -128,6 +125,7 @@ namespace MyHashTable
         private void AddEntry(LinkedList<Entry> bucket, Entry entry)
         {
             bucket.AddLast(entry);
+            Size++;
             Resize();
         }
     }
